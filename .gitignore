@@ -1,3 +1,10 @@
+#Dev stuff
+btcusdt_1m.csv
+jupyterlog
+*.ipynb
+step_test_parameters.json
+runtest.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
