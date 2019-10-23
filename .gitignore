@@ -4,6 +4,7 @@ jupyterlog
 *.ipynb
 step_test_parameters.json
 runtest.py
+strategy_components/metadata_test.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
