@@ -5,8 +5,8 @@ import importlib
 import time
 
 from components.models import MetaData
-from market_data_handler.models import RealMarketData, BacktestMarketData
-from order_handler.models import BacktestOrder
+from marketdatahandler.models import RealMarketData
+from orderhandler.models import RealOrders
 
 # TODO : Atenção para os métodos privados
 
@@ -37,63 +37,47 @@ class Trader:
                            self.metadata.strategy_name)
 
         # TODO : Strategy como model do django
-        self.strategy = Strategy(id=self.metadata.setup_id)
+        self.strategy = Strategy(id=self.metadata.strategy_setup)
 
-    def run(self, mode):
-        """
-
-        :type mode: list
-        """
-        real_trade = 'rt' in mode
-        backtesting = 'bt' in mode
-        both = bool(real_trade and backtesting)
-
-        if real_trade:
-            # Corre em celery run_for_real
-            pass
-
-        if backtesting:
-            # Corre em celery run_in_back_testing
-            pass
-
-        if both:
-            # Corre cada um em um celery diferente
-            pass
-
-    # @celery
     def run_for_real(self):
         '''Todos os passos do trade, como verificar stop, definir posição, disparar ordem
         corretamente para corretora correspondente, etc. Repetir indefinidamente
 
-        :return:
+        :return: trader -- A celery object which defines the state of trading_run loop function.
         '''
 
         # TODO : verificar se o trader está ativo para o mesmo trade. Emitir alerta caso esteja.
 
-        data_handler = RealMarketData(self.metadata)
+        self.data_handler = RealMarketData(self.metadata)
 
-        order = getattr(importlib.import_module("order_handler.models"),
-                                  self.metadata.exchange_name)
+        self.order = RealOrders(self.metadata.exchange)
+
+        trader = self.trading_run(self)
+
+        return trader
+
+    # @celery
+    def trading_run(self):
 
         while True:
 
-            self.strategy.data_to_analyze = data_handler.refresh_data()
+            # TODO escrever corretamente método/prorpiedade
+            self.strategy.data_to_analyze = self.data_handler.refresh_data()
 
             signal = self.strategy.chek_for_signal(self.metadata.position)
 
             if signal.is_trade:
 
-                trade = order.execute(signal.trade)
+                trade = self.order.execute(signal.trade)
 
                 if trade.is_done:
 
+                    # TODO escrever corretamente método/prorpiedade
                     self.metadata.position.side = signal.trade["new_side"]
                     # TODO : Appendar no trade_history
 
-            #strategy.update_ref_prices
-
             #TODO : função do timesleep
-            time.sleep(self.strategy.calcule_sleep_for((self.metadata.trade_interval)))
+            time.sleep(self.sleep_time)
 
     # @celery
     def run_in_back_testing(self,
