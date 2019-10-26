@@ -1,3 +1,6 @@
+# Dev Stuff
+btcusdt_1m.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -96,7 +99,6 @@ ENV/
 env.bak/
 venv.bak/
 .idea/
-Pipfile.lock
 
 # Spyder project settings
 .spyderproject
