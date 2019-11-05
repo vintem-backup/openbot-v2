@@ -32,10 +32,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django_extensions',
-    'broker',
-    'checkposition',
-    'indicators',
-    'marketdatahandler',
+    'brokers',
+    'positionverifiers',
+    'marketindicators',
+    'stopcheckers',
     'notifiers',
     'trader',
     'django.contrib.admin',

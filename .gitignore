@@ -2,6 +2,8 @@
 btcusdt_1m.csv
 dev-notebook.ipynb
 DEPRECATED*
+jupyterlog
+classes_draft.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
