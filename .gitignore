@@ -4,6 +4,7 @@ dev-notebook.ipynb
 DEPRECATED*
 jupyterlog
 classes_draft.ipynb
+*/migrations
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
