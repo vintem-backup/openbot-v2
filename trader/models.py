@@ -7,8 +7,10 @@ from django.db import models
 
 class Trader:
 
-    def __init__(self):
-        self.metadata = OperationMetadata()
+    #INSTANCIAMENTO DAS FERRAMENTAS
+    #Contuará assim, porém trocar o importlib por "from ... import"
+    def __init__(self, operation_name):
+        self.metadata = OperationMetadata(operation_name)
 
         self.broker = getattr(
             importlib.import_module(
@@ -17,7 +19,7 @@ class Trader:
 
         self.position_verifier = getattr(
             importlib.import_module(
-                "positionverifiers.models"),
+                "DEPRECATED-positionverifiers.models"),
             self.metadata.position_verifier_id
         )
 
@@ -94,6 +96,7 @@ class DataHandler:
     pass
 
 
+#AQUI VIRA OBJETO DO DJANGO COM AS CHOICES VINDO DA FUNÇÃO QUE ESCREVI NO JUPYTER
 class OperationMetadata:
 
     def __init__(self):
