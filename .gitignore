@@ -3,7 +3,7 @@ btcusdt_1m.csv
 dev-notebook.ipynb
 DEPRECATED*
 jupyterlog
-classes_draft.ipynb
+*.ipynb
 */migrations
 
 # Byte-compiled / optimized / DLL files
